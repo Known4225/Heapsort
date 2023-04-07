@@ -353,7 +353,7 @@ if args.skip1 or args.skip:
 if args.skip2 or args.skip:
     auto[1] = 's'
 # auto = input('Auto:')
-print(auto)
+# print(auto)
 array = []
 for i in range(15):
     array.append(r.randint(0, 99))
