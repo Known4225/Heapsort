@@ -1,15 +1,15 @@
 '''
 requires turtools module
 Usage:
-when run it will prompt you with the option to automatically advance through the heapsort, type 'none' for default experience
+python3 Heapsort.py, add additional flags -a, -a1, or -a2 to automatically play animations and -s, -s1, s2 to skip through animations
 a list of length 15 will generate (this can be configured), then an empty heap will be created. Press space to advance through the heap sort.
 This project will show how the heap sort algorithm works.
 The first heap will be adding elements to the empty heap and swapping to create a max heap
 The second heap will be remove elements from the max heap to sort the list
 Heap sort is an O(nlog(n)) time complexity algorithm
 '''
-
 import turtle
+import argparse
 import math as m
 import random as r
 import time
@@ -99,10 +99,10 @@ def animateHeap(ar, yset):
         t.penup()
         t.goto(stx + xArray[i] + 1, yArray[i] + (3 / (gralay)))
         t.write(ar[i], move=False, align='center', font=('Courier', int(circ), 'bold'))
-        if auto != '1' and auto != 'both':
-            wait('space')
-        if auto == 'both':
+        if auto[0] == 'a':
             time.sleep(0.5)
+        elif auto[0] != 's':
+            wait('space')
         counter += 1
         icache = i
         while i != 0:
@@ -127,10 +127,10 @@ def animateHeap(ar, yset):
                 t.penup()
                 t.goto(stx + xArray[i] + 1, yArray[i] + (3 / (gralay)))
                 t.write(ar[i], move=False, align='center', font=('Courier', int(circ), 'bold'))
-                if auto != '1' and auto != 'both':
-                    wait('space')
-                if auto == 'both':
+                if auto[0] == 'a':
                     time.sleep(0.5)
+                elif auto[0] != 's':
+                    wait('space')
                 counter += 1
             else:
                 i = 0
@@ -232,10 +232,10 @@ def deleteHeap(ar, yset):
     end = len(ar) - 1
     final = []
     while end > -1:
-        if auto != '2' and auto != 'both':
-            wait('space')
-        if auto == 'both':
+        if auto[1] == 'a':
             time.sleep(0.5)
+        elif auto[1] != 's':
+            wait('space')
         counter += 1
         cache = ar[0]
         ar[0] = ar[end]
@@ -257,10 +257,10 @@ def deleteHeap(ar, yset):
         t.penup()
         t.goto(stx + xArray[0] + 1, yArray[0] + (3 / (gralay)))
         t.write(ar[0], move=False, align='center', font=('Courier', int(circ), 'bold'))
-        if auto != '2' and auto != 'both':
-            wait('space')
-        if auto == 'both':
+        if auto[1] == 'a':
             time.sleep(0.5)
+        elif auto[1] != 's':
+            wait('space')
         counter += 1
         t.goto(stx + xArray[end], yArray[end])
         t.pendown()
@@ -276,10 +276,10 @@ def deleteHeap(ar, yset):
             else:
                 swap = (i + 1) * 2 - 1
             if ar[swap] > ar[i]:
-                if auto != '2' and auto != 'both':
-                    wait('space')
-                if auto == 'both':
+                if auto[1] == 'a':
                     time.sleep(0.5)
+                elif auto[1] != 's':
+                    wait('space')
                 counter += 1
                 cache = ar[swap]
                 ar[swap] = ar[i]
@@ -335,7 +335,25 @@ def wait(kl):
     #     t.goto(stx + xArray[k] + circ * m.sin(m.pi / 2 - angArray[k]), yArray[k] + circ * (1 + m.cos(m.pi / 2 - angArray[k])))
     #     t.penup()
 
-auto = input('Auto:')
+parser = argparse.ArgumentParser()
+parser.add_argument("-a", "--auto", help="automatically play", action="store_true")
+parser.add_argument("-a1", "--auto1", help="automatically play phase 1", action="store_true")
+parser.add_argument("-a2", "--auto2", help="automatically play phase 2", action="store_true")
+parser.add_argument("-s", "--skip", help="automatically skip", action="store_true")
+parser.add_argument("-s1", "--skip1", help="automatically skip phase 1", action="store_true")
+parser.add_argument("-s2", "--skip2", help="automatically skip phase 2", action="store_true")
+args = parser.parse_args()
+auto = ["none", "none"]
+if args.auto1 or args.auto:
+    auto[0] = 'a'
+if args.auto2 or args.auto:
+    auto[1] = 'a'
+if args.skip1 or args.skip:
+    auto[0] = 's'
+if args.skip2 or args.skip:
+    auto[1] = 's'
+# auto = input('Auto:')
+print(auto)
 array = []
 for i in range(15):
     array.append(r.randint(0, 99))
